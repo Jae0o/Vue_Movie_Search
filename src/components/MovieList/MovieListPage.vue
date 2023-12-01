@@ -15,24 +15,22 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { useMovieStore } from "~/store/MovieStore";
+import { onMounted } from "vue";
+import { useMovieStore } from "../../store/MovieStore";
 import MovieListItem from "./MovieListItem.vue";
-import router from "~/routes";
+import router from "../../routes";
 
 const movieStore = useMovieStore();
-const listTitle = ref<string>("");
 
 async function fetchList() {
   if (typeof router.currentRoute.value.params.title !== "string") return;
   const title: string = router.currentRoute.value.params.title;
   await movieStore.fetchNewMovieList(title);
-  listTitle.value = title;
 }
 
 async function fetchNextList() {
   movieStore.page = movieStore.page + 1;
-  movieStore.fetchNextMovieList(listTitle.value, movieStore.page);
+  movieStore.fetchNextMovieList(movieStore.page);
 }
 
 onMounted(() => {
@@ -44,37 +42,50 @@ onMounted(() => {
 .movielist {
   width: 100%;
   flex-grow: 1;
+
   position: relative;
+
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  flex-wrap: wrap;
   align-items: center;
   justify-items: center;
+
   overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   .movielist__item {
     width: 250px;
     height: 320px;
+    margin: 10px 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     background-color: rgba(#000, 0.6);
     border-radius: 8px;
-    margin: 10px 0;
   }
 
   .movielist__button {
     width: 50px;
     height: 50px;
-    position: fixed;
-    bottom: 40px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
+    position: fixed;
+    bottom: 40px;
+
     outline: none;
     border: none;
     background-color: rgba(#adb5bd, 0.8);
     border-radius: 50%;
+
     cursor: pointer;
     transition: all 0.3s;
     .material-symbols-outlined {

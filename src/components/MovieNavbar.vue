@@ -17,8 +17,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import router from "~/routes";
 import { useMovieStore } from "~/store/MovieStore";
+import router from "~/routes";
 
 const movieStore = useMovieStore();
 
@@ -31,7 +31,6 @@ function searchMovie() {
       title: title.value
     }
   });
-  movieStore.page = 1;
   movieStore.fetchNewMovieList(title.value);
   title.value = "";
 }
@@ -81,17 +80,18 @@ function searchMovie() {
     .navbar__button {
       height: 100%;
       width: 60px;
-      outline: none;
-      border: none;
-      cursor: pointer;
 
-      border-top-right-radius: 12px;
-      border-bottom-right-radius: 12px;
-
-      background-color: #adb5bd;
       display: flex;
       align-items: center;
       justify-content: center;
+
+      background-color: #adb5bd;
+      outline: none;
+      border: none;
+      border-top-right-radius: 12px;
+      border-bottom-right-radius: 12px;
+
+      cursor: pointer;
 
       .material-symbols-outlined {
         transition: all 0.3s;
